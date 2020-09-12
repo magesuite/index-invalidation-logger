@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="index_invalidation_log" resource="default" engine="innodb" comment="Index invalidation log">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="text" name="context" nullable="true" comment="Access Token"/>
+        <column xsi:type="timestamp" name="executed_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Executed at"/>
+        <column xsi:type="int" name="stacktrace_id" unsigned="true" comment="Stacktrace id" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="index_invalidation_log_stacktrace" resource="default" engine="innodb" comment="Index invalidation log stacktraces">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Stacktrace ID"/>
+        <column xsi:type="text" name="stacktrace" nullable="true" comment="Stacktrace"/>
+        <column xsi:type="varchar" name="hash" nullable="false" length="32" comment="Stacktrace unique hash"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="CACHE_CLEANUP_LOG_STACKTRACE_HASH" indexType="btree">
+            <column name="hash"/>
+        </index>
+    </table>
+</schema>

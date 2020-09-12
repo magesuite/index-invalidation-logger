@@ -1,0 +1,30 @@
+<script type="text/javascript">
+    function openStacktrace(stackTraceId) {
+        require(
+            [
+                'jquery',
+                'Magento_Ui/js/modal/modal'
+            ],
+            function (
+                $,
+                modal
+            ) {
+                var options = {
+                    type: 'popup',
+                    title: 'Stack trace',
+                    buttons: [{
+                        text: $.mage.__('Close'),
+                        class: '',
+                        click: function () {
+                            this.closeModal();
+                        }
+                    }]
+                };
+
+                modal(options, $('#stacktrace-modal-' + stackTraceId));
+
+                $("#stacktrace-modal-" + stackTraceId).modal("openModal");
+            }
+        );
+    }
+</script>
