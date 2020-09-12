@@ -2,7 +2,7 @@
 
 namespace MageSuite\IndexInvalidationLogger\Model;
 
-class InvalidationLog extends \Magento\Framework\Model\AbstractModel implements \MageSuite\Cache\Api\Data\CleanupLogInterface
+class InvalidationLog extends \Magento\Framework\Model\AbstractModel
 {
     protected function _construct()
     {

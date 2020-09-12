@@ -16,7 +16,7 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
-        <index referenceId="CACHE_CLEANUP_LOG_STACKTRACE_HASH" indexType="btree">
+        <index referenceId="INDEX_INVALIDATION_LOG_STACKTRACE_HASH" indexType="btree">
             <column name="hash"/>
         </index>
     </table>
