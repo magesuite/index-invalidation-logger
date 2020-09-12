@@ -4,15 +4,30 @@ namespace MageSuite\IndexInvalidationLogger\Plugin\Framework\Indexer\Indexer;
 
 class LogInvalidation
 {
+    /**
+     * @var \MageSuite\IndexInvalidationLogger\Helper\Configuration
+     */
+    protected $configuration;
+
+    /**
+     * @var \MageSuite\IndexInvalidationLogger\Model\Command\GenerateBasicLogData
+     */
+    protected $generateBasicLogData;
+
+    /**
+     * @var \MageSuite\IndexInvalidationLogger\Model\InvalidationLogRepository
+     */
+    protected $invalidationLogRepository;
+
     public function __construct(
-        \MageSuite\IndexInvalidationLogger\Model\InvalidationLogRepository $cleanupLogRepository,
+        \MageSuite\IndexInvalidationLogger\Model\InvalidationLogRepository $invalidationLogRepository,
         \MageSuite\IndexInvalidationLogger\Helper\Configuration $configuration,
-        \MageSuite\IndexInvalidationLogger\Model\Command\GenerateBasicLogData $generateBasicCleanupLogData
+        \MageSuite\IndexInvalidationLogger\Model\Command\GenerateBasicLogData $generateBasicLogData
     )
     {
         $this->configuration = $configuration;
-        $this->generateBasicCleanupLogData = $generateBasicCleanupLogData;
-        $this->cleanupLogRepository = $cleanupLogRepository;
+        $this->generateBasicLogData = $generateBasicLogData;
+        $this->invalidationLogRepository = $invalidationLogRepository;
     }
 
     public function afterInvalidate(\Magento\Framework\Indexer\IndexerInterface $subject, $result)
@@ -22,10 +37,10 @@ class LogInvalidation
         }
         $stackTrace = $this->getStackTrace();
 
-        $data = $this->generateBasicCleanupLogData->execute($stackTrace);
+        $data = $this->generateBasicLogData->execute($stackTrace);
         $data['index'] = $subject->getId();
 
-        $this->cleanupLogRepository->save($data);
+        $this->invalidationLogRepository->save($data);
 
         return $result;
     }
