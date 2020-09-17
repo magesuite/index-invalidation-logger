@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <system>
+            <index_invalidation_debugger>
+                <is_logging_enabled>1</is_logging_enabled>
+                <logging_retention_period>3</logging_retention_period>
+            </index_invalidation_debugger>
+        </system>
+    </default>
+</config>
