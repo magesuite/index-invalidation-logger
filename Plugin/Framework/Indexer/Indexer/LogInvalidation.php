@@ -49,11 +49,12 @@ class LogInvalidation
         return $result;
     }
 
-    public function afterReindexAll(\Magento\Framework\Indexer\IndexerInterface $subject, $result)
+    public function beforeReindexAll(\Magento\Framework\Indexer\IndexerInterface $subject)
     {
         if (!$this->configuration->isLoggingEnabled()) {
-            return $result;
+            return [];
         }
+
         $stackTrace = $this->getStackTrace();
 
         $data = $this->generateBasicLogData->execute($stackTrace);
@@ -62,7 +63,7 @@ class LogInvalidation
 
         $this->invalidationLogRepository->save($data);
 
-        return $result;
+        return [];
     }
 
     protected function getStackTrace()
