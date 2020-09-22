@@ -4,6 +4,9 @@ namespace MageSuite\IndexInvalidationLogger\Plugin\Framework\Indexer\Indexer;
 
 class LogInvalidation
 {
+    const INVALIDATION = 'invalidation';
+    const FULL_REINDEX = 'full_reindex';
+
     /**
      * @var \MageSuite\IndexInvalidationLogger\Helper\Configuration
      */
@@ -39,6 +42,23 @@ class LogInvalidation
 
         $data = $this->generateBasicLogData->execute($stackTrace);
         $data['index'] = $subject->getId();
+        $data['type'] = self::INVALIDATION;
+
+        $this->invalidationLogRepository->save($data);
+
+        return $result;
+    }
+
+    public function afterReindexAll(\Magento\Framework\Indexer\IndexerInterface $subject, $result)
+    {
+        if (!$this->configuration->isLoggingEnabled()) {
+            return $result;
+        }
+        $stackTrace = $this->getStackTrace();
+
+        $data = $this->generateBasicLogData->execute($stackTrace);
+        $data['index'] = $subject->getId();
+        $data['type'] = self::FULL_REINDEX;
 
         $this->invalidationLogRepository->save($data);
 

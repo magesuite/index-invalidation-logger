@@ -86,6 +86,19 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 HTML;
     }
 
+    protected function getType($context)
+    {
+        if (isset($context['type']) && $context['type'] == \MageSuite\IndexInvalidationLogger\Plugin\Framework\Indexer\Indexer\LogInvalidation::INVALIDATION) {
+            return '<span class="grid-severity-minor"><span>INVALIDATION</span></span>';
+        }
+
+        if (isset($context['type']) && $context['type'] == \MageSuite\IndexInvalidationLogger\Plugin\Framework\Indexer\Indexer\LogInvalidation::FULL_REINDEX) {
+            return '<span class="grid-severity-external"><span>FULL REINDEX</span></span>';
+        }
+
+        return '';
+    }
+
     protected function buildItem(\Magento\Framework\DataObject $item)
     {
         $context = json_decode($item->getContext(), true);
@@ -98,6 +111,7 @@ HTML;
 
         $item->setIndex($context['index']);
         $item->setExtra($this->getExtra($context));
+        $item->setType($this->getType($context));
         $item->setStackTrace($stackTrace);
     }
 }

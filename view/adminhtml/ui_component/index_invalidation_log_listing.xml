@@ -45,6 +45,14 @@
                 <label translate="true">Index</label>
             </settings>
         </column>
+        <column name="type" sortOrder="30">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label translate="true">Type</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
         <column name="stack_trace" sortOrder="40">
             <settings>
                 <filter>text</filter>
