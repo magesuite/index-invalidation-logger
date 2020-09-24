@@ -5,6 +5,25 @@ namespace MageSuite\IndexInvalidationLogger\Model\ResourceModel\InvalidationLog;
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
     /**
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $timezone;
+
+    public function __construct(
+        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
+        \Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
+        \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
+    ) {
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
+
+        $this->timezone = $timezone;
+    }
+
+    /**
      * @var string
      */
     protected $_idFieldName = 'id';
@@ -86,6 +105,19 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 HTML;
     }
 
+    protected function getType($context)
+    {
+        if (isset($context['type']) && $context['type'] == \MageSuite\IndexInvalidationLogger\Plugin\Framework\Indexer\Indexer\LogInvalidation::INVALIDATION) {
+            return '<span class="grid-severity-minor"><span>INVALIDATION</span></span>';
+        }
+
+        if (isset($context['type']) && $context['type'] == \MageSuite\IndexInvalidationLogger\Plugin\Framework\Indexer\Indexer\LogInvalidation::FULL_REINDEX) {
+            return '<span class="grid-severity-external"><span>FULL REINDEX</span></span>';
+        }
+
+        return '';
+    }
+
     protected function buildItem(\Magento\Framework\DataObject $item)
     {
         $context = json_decode($item->getContext(), true);
@@ -96,8 +128,10 @@ HTML;
             $item->getData('hash')
         );
 
+        $item->setExecutedAt($this->timezone->date($item->getExecutedAt())->format('Y-m-d H:i:s'));
         $item->setIndex($context['index']);
         $item->setExtra($this->getExtra($context));
+        $item->setType($this->getType($context));
         $item->setStackTrace($stackTrace);
     }
 }
