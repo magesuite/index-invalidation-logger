@@ -43,9 +43,8 @@ class InvalidationLogStacktrace extends \Magento\Framework\Model\ResourceModel\D
         $select = $this->getConnection()->select();
         $select->from($this->getMainTable(), 'id');
         $select->where('hash = ?', $hash);
+        $id = $this->getConnection()->fetchOne($select);
 
-        $row = $this->getConnection()->fetchRow($select);
-
-        return $row === null ? null : $row['id'];
+        return $id ?: null;
     }
 }
