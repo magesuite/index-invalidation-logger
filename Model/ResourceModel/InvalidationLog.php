@@ -11,8 +11,8 @@ class InvalidationLog extends \Magento\Framework\Model\ResourceModel\Db\Abstract
 
     public function __construct(
         \Magento\Framework\Model\ResourceModel\Db\Context $context,
-        $connectionName = null,
-        InvalidationLogStacktrace $stacktraceResourceModel
+        InvalidationLogStacktrace $stacktraceResourceModel,
+        $connectionName = null
     )
     {
         parent::__construct($context, $connectionName);
