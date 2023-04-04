@@ -4,4 +4,7 @@
     <type name="Magento\Framework\Indexer\IndexerInterface">
         <plugin name="log_index_invalidation" type="MageSuite\IndexInvalidationLogger\Plugin\Framework\Indexer\Indexer\LogInvalidation" />
     </type>
+    <type name="Smile\ElasticsuiteCore\Client\Client">
+        <plugin name="log_update_aliases" type="MageSuite\IndexInvalidationLogger\Plugin\Smile\ElasticsuiteCore\Client\Client\LogUpdateAliases" />
+    </type>
 </config>
