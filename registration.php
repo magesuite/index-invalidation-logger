@@ -4,4 +4,3 @@
     'MageSuite_IndexInvalidationLogger',
     __DIR__
 );
-
