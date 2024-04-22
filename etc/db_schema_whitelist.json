@@ -1,0 +1,26 @@
+{
+    "index_invalidation_log": {
+        "column": {
+            "id": true,
+            "context": true,
+            "executed_at": true,
+            "stacktrace_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "index_invalidation_log_stacktrace": {
+        "column": {
+            "id": true,
+            "stacktrace": true,
+            "hash": true
+        },
+        "index": {
+            "INDEX_INVALIDATION_LOG_STACKTRACE_HASH": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
