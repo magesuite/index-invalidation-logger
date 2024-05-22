@@ -28,6 +28,6 @@ class CleanLogs
             $logsTable,
             "executed_at < date_sub(CURDATE(), INTERVAL ".$retentionPeriodInDays." Day)"
         );
-        $this->connection->query("DELETE FROM {$logsTableStacktrace} WHERE stacktrace_id NOT IN (SELECT id FROM {$logsTable});");
+        $this->connection->query("DELETE FROM {$logsTableStacktrace} WHERE id NOT IN (SELECT stacktrace_id FROM {$logsTable});");
     }
 }
